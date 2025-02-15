@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-close-file-all"
+description = "Enables the close_file_all command without any pre-configured scope."
+commands.allow = ["close_file_all"]
+
+[[permission]]
+identifier = "deny-close-file-all"
+description = "Denies the close_file_all command without any pre-configured scope."
+commands.deny = ["close_file_all"]

@@ -1,0 +1,17 @@
+[package]
+name = "tauri-plugin-tinys-internal-fs"
+version = "0.1.0"
+authors = [ "TinyWang" ]
+description = "This plugin is primarily designed for Tinywang's convenience in developing Tauri applications and is tailored to personal needs only."
+edition = "2021"
+rust-version = "1.77.2"
+exclude = ["/examples", "/dist-js", "/guest-js", "/node_modules"]
+links = "tauri-plugin-tinys-internal-fs"
+license = "MIT"
+[dependencies]
+tauri = { version = "2.2.4" }
+serde = "1.0"
+thiserror = "2"
+
+[build-dependencies]
+tauri-plugin = { version = "2.0.3", features = ["build"] }
