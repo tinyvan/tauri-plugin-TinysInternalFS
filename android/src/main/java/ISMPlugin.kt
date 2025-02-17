@@ -128,4 +128,10 @@ class ISMPlugin(private val activity: Activity) : Plugin(activity) {
         ism.closeAll()
         invoke.resolve()
     }
+    @Command
+    fun getFilesDir(invoke: Invoke) {
+        val ret = JSObject()
+        ret.put("path", ism.getFilesDir())
+        invoke.resolve(ret)
+    }
 }

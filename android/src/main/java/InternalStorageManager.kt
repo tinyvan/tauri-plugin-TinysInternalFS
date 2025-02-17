@@ -116,4 +116,7 @@ class InternalStorageManager (private val context: Context){
         }
         fileHandlers.clear()
     }
+    fun getFilesDir():String{
+        return context.filesDir.absolutePath
+    }
 }
