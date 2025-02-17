@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-tinys-internal-fs"
-version = "0.1.0"
+version = "0.1.1"
 authors = [ "TinyWang" ]
 description = "This plugin is primarily designed for Tinywang's convenience in developing Tauri applications and is tailored to personal needs only."
 edition = "2021"

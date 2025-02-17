@@ -162,6 +162,9 @@ export async function checkFileExists(path:string):Promise<boolean> {
   });
 }
 
+export async function getFilesDir():Promise<string> {
+  return await invoke<string>("plugin:tinys-internal-fs|get_files_dir");
+}
 
 // export async function openFile(path:string,mode:string): Promise<_FileHandle> {
 //   return await invoke("plugin:tinys-internal-fs|open_file",{
