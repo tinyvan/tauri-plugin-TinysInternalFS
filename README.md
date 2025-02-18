@@ -10,7 +10,7 @@ This project is still under development and may be unstable.
 
 ## Introduction
 
-This Tauri plugin implements internal storage functionality ( `/data/data/app.tauri` ) on Android without requiring permissions.
+This Tauri plugin implements internal storage functionality ( `/data/data/app.tauri/files` ) on Android without requiring permissions.
 
 **Key Features:**
 
@@ -18,6 +18,7 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
 *   **Immediate File Operations**: Offers functions for quick read and write operations (`readFileImmediately`, `writeFileImmediately`) without the need to manage file handles explicitly.
 *   **File Existence Check**: Allows you to verify if a file exists at a given path (`checkFileExists`).
 *   **Close All Files**: Provides a function to close all files opened by the plugin (`closeFileAll`).
+*   **Get Files Directory**: Retrieves the absolute path to the application's files directory on Android (`getFilesDir`).
 
 **Implemented Features:**
 
@@ -32,6 +33,7 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
 - **Utilities:**
     - Check if file exists (`checkFileExists`)
     - Close all files (`closeFileAll`)
+    - Get Files Directory (`getFilesDir`)
 
 
 ## Library File Operation Function Implementation Status Table
@@ -45,7 +47,8 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
 | `readFileImmediately()`                   | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `writeFileImmediately()`                  | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `checkFileExists()`                       | ✅      | ❌   | ❌      | ❌     | ❌     |
-| `closeFileAll()`                          | ✅      | ❌   | ❌     | ❌     | ❌     |
+| `closeFileAll()`                          | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `getFilesDir()`                           | ✅      | ❌   | ❌      | ❌     | ❌     |
 
 **Notes:**
 
@@ -168,6 +171,25 @@ async function checkFileExistenceExample() {
 }
 
 checkFileExistenceExample();
+```
+
+### Getting the Files Directory
+
+This function retrieves the absolute path to the application's internal files directory on Android. This is useful when you need to know the base directory for storing files.
+
+```typescript
+import { getFilesDir } from 'plugin-tinys-internal-fs-api';
+
+async function getFilesDirExample() {
+  try {
+    const filesDir = await getFilesDir();
+    console.log('Files directory:', filesDir);
+  } catch (error) {
+    console.error('Failed to get files directory:', error);
+  }
+}
+
+getFilesDirExample();
 ```
 
 ### Closing All Opened Files

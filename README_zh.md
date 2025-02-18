@@ -10,7 +10,7 @@
 
 ## 介绍
 
-此 Tauri 插件实现了 Android 上的内部存储功能 ( `/data/data/app.tauri` )，无需任何权限。
+此 Tauri 插件实现了 Android 上的内部存储功能 ( `/data/data/app.tauri/files` )，无需任何权限。
 
 **主要特性:**
 
@@ -18,6 +18,7 @@
 *   **立即文件操作**: 提供用于快速读取和写入操作的函数 (`readFileImmediately`, `writeFileImmediately`)，无需显式管理文件句柄。
 *   **文件存在性检查**: 允许您验证给定路径的文件是否存在 (`checkFileExists`)。
 *   **关闭所有文件**: 提供关闭插件打开的所有文件的功能 (`closeFileAll`)。
+*   **获取文件目录**: 获取 Android 应用程序内部文件目录的绝对路径 (`getFilesDir`)。
 
 **已实现功能:**
 
@@ -32,6 +33,7 @@
 - **实用工具:**
     - 检查文件是否存在 (`checkFileExists`)
     - 关闭所有文件 (`closeFileAll`)
+    - 获取文件目录 (`getFilesDir`)
 
 
 ## 库文件操作函数实现状态表
@@ -46,6 +48,7 @@
 | `writeFileImmediately()`                  | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `checkFileExists()`                       | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `closeFileAll()`                          | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `getFilesDir()`                           | ✅      | ❌   | ❌      | ❌     | ❌     |
 
 **注释:**
 
@@ -168,6 +171,25 @@ async function checkFileExistenceExample() {
 }
 
 checkFileExistenceExample();
+```
+
+### 获取文件目录
+
+此函数获取 Android 应用程序内部文件目录的绝对路径。 当您需要知道存储文件的基本目录时，这非常有用。
+
+```typescript
+import { getFilesDir } from 'plugin-tinys-internal-fs-api';
+
+async function getFilesDirExample() {
+  try {
+    const filesDir = await getFilesDir();
+    console.log('文件目录:', filesDir);
+  } catch (error) {
+    console.error('获取文件目录失败:', error);
+  }
+}
+
+getFilesDirExample();
 ```
 
 ### 关闭所有已打开的文件
