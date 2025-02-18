@@ -2,7 +2,16 @@
 
 Default permissions for the plugin
 
-- `allow-ping`
+- `allow-check-file-exists`
+- `allow-close-file-all`
+- `allow-close-file`
+- `allow-delete-file`
+- `allow-get-files-dir`
+- `allow-open-file`
+- `allow-read-file-all`
+- `allow-read-file-immediately`
+- `allow-write-file-immediately`
+- `allow-write-file`
 
 ## Permission Table
 
@@ -120,6 +129,32 @@ Denies the delete_file command without any pre-configured scope.
 <tr>
 <td>
 
+`tinys-internal-fs:allow-get-files-dir`
+
+</td>
+<td>
+
+Enables the get_files_dir command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`tinys-internal-fs:deny-get-files-dir`
+
+</td>
+<td>
+
+Denies the get_files_dir command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
 `tinys-internal-fs:allow-open-file`
 
 </td>
@@ -139,32 +174,6 @@ Enables the open_file command without any pre-configured scope.
 <td>
 
 Denies the open_file command without any pre-configured scope.
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-`tinys-internal-fs:allow-ping`
-
-</td>
-<td>
-
-Enables the ping command without any pre-configured scope.
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-`tinys-internal-fs:deny-ping`
-
-</td>
-<td>
-
-Denies the ping command without any pre-configured scope.
 
 </td>
 </tr>

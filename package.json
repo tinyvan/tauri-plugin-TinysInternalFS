@@ -1,6 +1,6 @@
 {
   "name": "tauri-plugin-tinys-internal-fs-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "TinyWang",
   "description": "This plugin is primarily designed for Tinywang's convenience in developing Tauri applications and is tailored to personal needs only.",
   "type": "module",

@@ -63,3 +63,9 @@ pub struct DeleteFilePayload {
 pub struct CheckFileExistsPayload {
     pub path: String,
 }
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GetFilesDirResult {
+   pub path: String, 
+}

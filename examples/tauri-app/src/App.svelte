@@ -7,7 +7,7 @@
     // openFile,
     // closeFile,
   } from "tauri-plugin-tinys-internal-fs-api";
-  import { TFile } from "tauri-plugin-tinys-internal-fs-api";
+  import { TFile,getFilesDir } from "tauri-plugin-tinys-internal-fs-api";
   let response = "";
   let file:TFile|null = null;
   function updateResponse(returnValue) {
@@ -35,12 +35,18 @@
     })
     file.close();
   }
+  function testGetFilesDir()
+  {
+    getFilesDir().then((data)=>{
+      console.log("getFilesDir:",data) 
+    })
+  }
 </script>
 
 <main class="container">
 
   <div>
-    <button on:click={testopenRead}>read</button>
+    <button on:click={testGetFilesDir}>read</button>
     <div>{@html response}</div>
   </div>
   <div>

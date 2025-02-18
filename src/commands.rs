@@ -179,3 +179,12 @@ pub(crate) async fn check_file_exists<R: Runtime>(
         Err(e) => Err(e.into()),
     }
 }
+
+#[command]
+pub(crate) async fn get_files_dir<R: Runtime>(app: AppHandle<R>) -> Result<String, String> {
+    let ret = app.tinys_internal_fs().get_files_dir();
+    match ret {
+        Ok(value) => Ok(value.path),
+        Err(e) => Err(e.into()),
+    }
+}

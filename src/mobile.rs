@@ -71,6 +71,12 @@ pub fn check_file_exists(&self, payload: CheckFileExistsPayload) -> crate::Resul
         .run_mobile_plugin("checkFileExists", payload)
         .map_err(Into::into)
 }
+
+pub fn get_files_dir(&self)-> crate::Result<GetFilesDirResult> {
+  self.0
+     .run_mobile_plugin("getFilesDir", ())
+     .map_err(Into::into)
+}
 }
 
 pub fn on_drop<R: Runtime>(app: AppHandle<R>) -> crate::Result<()> {
