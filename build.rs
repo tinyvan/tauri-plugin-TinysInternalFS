@@ -9,6 +9,8 @@ const COMMANDS: &[&str] = &[
     "delete_file",
     "check_file_exists",
     "get_files_dir",
+    "check_is_file",
+    "check_is_dir",
 ];
 
 fn main() {

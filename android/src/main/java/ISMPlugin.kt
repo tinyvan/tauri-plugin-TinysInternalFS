@@ -28,7 +28,7 @@ internal class CloseFileArgs {
     lateinit var path: String
 }
 @InvokeArg
-internal class ExistsArgs {
+internal class OnlyPathArgs {
     lateinit var path: String
 }
 @InvokeArg
@@ -96,7 +96,7 @@ class ISMPlugin(private val activity: Activity) : Plugin(activity) {
 
     @Command
     fun checkFileExists(invoke: Invoke) {
-        val args = invoke.parseArgs(ExistsArgs::class.java)
+        val args = invoke.parseArgs(OnlyPathArgs::class.java)
         val ret = JSObject()
         val result = ism.exists(args.path)
         ret.put("success", result.success)
@@ -132,6 +132,20 @@ class ISMPlugin(private val activity: Activity) : Plugin(activity) {
     fun getFilesDir(invoke: Invoke) {
         val ret = JSObject()
         ret.put("path", ism.getFilesDir())
+        invoke.resolve(ret)
+    }
+    @Command
+    fun checkIsFile(invoke: Invoke) {
+        val args = invoke.parseArgs(OnlyPathArgs::class.java)
+        val ret = JSObject()
+        ret.put("result", ism.isFile(args.path))
+        invoke.resolve(ret)
+    }
+    @Command
+    fun checkIsDir(invoke: Invoke) {
+        val args = invoke.parseArgs(OnlyPathArgs::class.java)
+        val ret = JSObject()
+        ret.put("result", ism.isDir(args.path))
         invoke.resolve(ret)
     }
 }

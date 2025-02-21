@@ -9,7 +9,7 @@ pub struct KResult {
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ReadFileImmediatelyPayload {
+pub struct OnlyPathPayload {
     pub path: String,
 }
 
@@ -28,21 +28,9 @@ pub struct OpenFilePayload {
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct CloseFilePayload {
-    pub path: String,
-}
-
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
 pub struct WriteFilePayload {
     pub path: String,
     pub content: String,
-}
-
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ReadFilePayload {
-    pub path: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
@@ -54,18 +42,12 @@ pub struct File {
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct DeleteFilePayload {
+pub struct GetFilesDirResult{
     pub path: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct CheckFileExistsPayload {
-    pub path: String,
-}
-
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct GetFilesDirResult {
-   pub path: String, 
+pub struct BoolResult{
+    pub result: bool,
 }

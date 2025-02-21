@@ -12,6 +12,9 @@ Default permissions for the plugin
 - `allow-read-file-immediately`
 - `allow-write-file-immediately`
 - `allow-write-file`
+- `allow-get-files-dir`
+- `allow-check-is-file`
+- `allow-check-is-dir`
 
 ## Permission Table
 
@@ -44,6 +47,58 @@ Enables the check_file_exists command without any pre-configured scope.
 <td>
 
 Denies the check_file_exists command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`tinys-internal-fs:allow-check-is-dir`
+
+</td>
+<td>
+
+Enables the check_is_dir command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`tinys-internal-fs:deny-check-is-dir`
+
+</td>
+<td>
+
+Denies the check_is_dir command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`tinys-internal-fs:allow-check-is-file`
+
+</td>
+<td>
+
+Enables the check_is_file command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`tinys-internal-fs:deny-check-is-file`
+
+</td>
+<td>
+
+Denies the check_is_file command without any pre-configured scope.
 
 </td>
 </tr>

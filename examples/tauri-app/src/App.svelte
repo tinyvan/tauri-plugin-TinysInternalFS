@@ -7,7 +7,7 @@
     // openFile,
     // closeFile,
   } from "tauri-plugin-tinys-internal-fs-api";
-  import { TFile,getFilesDir } from "tauri-plugin-tinys-internal-fs-api";
+  import { TFile,getFilesDir,checkFileExists,checkIsDir,checkIsFile } from "tauri-plugin-tinys-internal-fs-api";
   let response = "";
   let file:TFile|null = null;
   function updateResponse(returnValue) {
@@ -41,12 +41,24 @@
       console.log("getFilesDir:",data) 
     })
   }
+  function testCheckIsFile()
+  {
+    checkIsFile("test2.txt").then((data)=>{
+      console.log("checkIsFile:",data) 
+    })
+    checkIsDir("test2.txt").then((data)=>{
+      console.log("checkIsDir:",data) 
+    })
+    getFilesDir().then((data)=>{
+      console.log("getFilesDir:",data)
+    })
+  }
 </script>
 
 <main class="container">
 
   <div>
-    <button on:click={testGetFilesDir}>read</button>
+    <button on:click={testCheckIsFile}>read</button>
     <div>{@html response}</div>
   </div>
   <div>

@@ -25,7 +25,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 pub struct TinysInternalFs<R: Runtime>(PluginHandle<R>);
 
 impl<R: Runtime> TinysInternalFs<R> {
-  pub fn read_file_immediately(&self, payload: ReadFilePayload) -> crate::Result<KResult> {
+  pub fn read_file_immediately(&self, payload: OnlyPathPayload) -> crate::Result<KResult> {
     self.0
         .run_mobile_plugin("readFileImmediately", payload)
         .map_err(Into::into)
@@ -40,7 +40,7 @@ pub fn open_file(&self, payload: OpenFilePayload) -> crate::Result<KResult> {
         .run_mobile_plugin("openFile", payload)
         .map_err(Into::into)
 }
-pub fn close_file(&self, payload: CloseFilePayload) -> crate::Result<KResult> {
+pub fn close_file(&self, payload: OnlyPathPayload) -> crate::Result<KResult> {
     self.0
         .run_mobile_plugin("closeFile", payload)
         .map_err(Into::into)
@@ -50,7 +50,7 @@ pub fn write_file(&self, payload: WriteFilePayload) -> crate::Result<KResult> {
         .run_mobile_plugin("writeFile", payload)
         .map_err(Into::into)
 }
-pub fn read_file_all(&self, payload: ReadFilePayload) -> crate::Result<KResult> {
+pub fn read_file_all(&self, payload: OnlyPathPayload) -> crate::Result<KResult> {
     self.0
         .run_mobile_plugin("readFileAll", payload)
         .map_err(Into::into)
@@ -60,13 +60,13 @@ pub fn close_file_all(&self) -> crate::Result<()> {
         .run_mobile_plugin("closeFileAll", ())
         .map_err(Into::into)
 }
-pub fn delete_file(&self, payload: DeleteFilePayload) -> crate::Result<KResult> {
+pub fn delete_file(&self, payload: OnlyPathPayload) -> crate::Result<KResult> {
     self.0
         .run_mobile_plugin("deleteFile", payload)
         .map_err(Into::into)
 }
 
-pub fn check_file_exists(&self, payload: CheckFileExistsPayload) -> crate::Result<KResult> {
+pub fn check_file_exists(&self, payload: OnlyPathPayload) -> crate::Result<KResult> {
     self.0
         .run_mobile_plugin("checkFileExists", payload)
         .map_err(Into::into)
@@ -76,6 +76,17 @@ pub fn get_files_dir(&self)-> crate::Result<GetFilesDirResult> {
   self.0
      .run_mobile_plugin("getFilesDir", ())
      .map_err(Into::into)
+}
+
+pub fn check_is_file(&self, payload: OnlyPathPayload) -> crate::Result<BoolResult> {
+  self.0
+    .run_mobile_plugin("checkIsFile", payload)
+    .map_err(Into::into)
+}
+pub fn check_is_dir(&self, payload: OnlyPathPayload) -> crate::Result<BoolResult> {
+  self.0
+   .run_mobile_plugin("checkIsDir", payload)
+   .map_err(Into::into)
 }
 }
 

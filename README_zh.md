@@ -17,6 +17,8 @@
 *   **`TFile` 类**:  提供基于文件句柄的方法来进行顺序文件操作。通过使用写入队列，确保操作按顺序执行，特别是对于写入操作。
 *   **立即文件操作**: 提供用于快速读取和写入操作的函数 (`readFileImmediately`, `writeFileImmediately`)，无需显式管理文件句柄。
 *   **文件存在性检查**: 允许您验证给定路径的文件是否存在 (`checkFileExists`)。
+*   **检查路径是否为文件**: 允许您验证给定路径是否为文件 (`checkIsFile`)。
+*   **检查路径是否为目录**: 允许您验证给定路径是否为目录 (`checkIsDir`)。
 *   **关闭所有文件**: 提供关闭插件打开的所有文件的功能 (`closeFileAll`)。
 *   **获取文件目录**: 获取 Android 应用程序内部文件目录的绝对路径 (`getFilesDir`)。
 
@@ -32,9 +34,10 @@
     - 立即写入文件 (`writeFileImmediately`)
 - **实用工具:**
     - 检查文件是否存在 (`checkFileExists`)
+    - 检查路径是否为文件 (`checkIsFile`)
+    - 检查路径是否为目录 (`checkIsDir`)
     - 关闭所有文件 (`closeFileAll`)
     - 获取文件目录 (`getFilesDir`)
-
 
 ## 库文件操作函数实现状态表
 
@@ -47,6 +50,8 @@
 | `readFileImmediately()`                   | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `writeFileImmediately()`                  | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `checkFileExists()`                       | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `checkIsFile()`                       | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `checkIsDir()`                            | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `closeFileAll()`                          | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `getFilesDir()`                           | ✅      | ❌   | ❌      | ❌     | ❌     |
 
@@ -69,7 +74,7 @@ import { TFile } from 'plugin-tinys-internal-fs-api';
 async function writeFileExample() {
   try {
     const filePath = 'my_internal_file.txt';
-    const file = new TFile(filePath, 'write'); // 以 'write' 模式打开文件
+    const file = new TFile(filePath, 'w'); // 以 'w' 模式打开文件
     await file.waitUntilInitialized(); // 确保文件已打开
 
     await file.write('第一行内容。\n');
@@ -95,7 +100,7 @@ import { TFile } from 'plugin-tinys-internal-fs-api';
 async function readFileExample() {
   try {
     const filePath = 'my_internal_file.txt';
-    const file = new TFile(filePath, 'read'); // 以 'read' 模式打开文件
+    const file = new TFile(filePath, 'r'); // 以 'r' 模式打开文件
     await file.waitUntilInitialized(); // 确保文件已打开
 
     const content = await file.readAll();
@@ -171,6 +176,50 @@ async function checkFileExistenceExample() {
 }
 
 checkFileExistenceExample();
+```
+
+### 检查路径是否为文件
+
+```typescript
+import { checkIsFile } from 'plugin-tinys-internal-fs-api';
+
+async function checkIsFileExample() {
+  try {
+    const filePath = 'my_internal_file.txt'; // 替换为实际的文件路径
+    const isFile = await checkIsFile(filePath);
+    if (isFile) {
+      console.log(`路径 "${filePath}" 是一个文件。`);
+    } else {
+      console.log(`路径 "${filePath}" 不是一个文件。`);
+    }
+  } catch (error) {
+    console.error('检查路径是否为文件失败:', error);
+  }
+}
+
+checkIsFileExample();
+```
+
+### 检查路径是否为目录
+
+```typescript
+import { checkIsDir } from 'plugin-tinys-internal-fs-api';
+
+async function checkIsDirExample() {
+  try {
+    const dirPath = 'my_internal_directory'; // 替换为实际的目录路径
+    const isDir = await checkIsDir(dirPath);
+    if (isDir) {
+      console.log(`路径 "${dirPath}" 是一个目录。`);
+    } else {
+      console.log(`路径 "${dirPath}" 不是一个目录。`);
+    }
+  } catch (error) {
+    console.error('检查路径是否为目录失败:', error);
+  }
+}
+
+checkIsDirExample();
 ```
 
 ### 获取文件目录

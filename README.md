@@ -17,6 +17,8 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
 *   **`TFile` Class**:  Provides a file handle based approach for sequential file operations. It ensures operations are performed in order, especially for writing, by using a write queue.
 *   **Immediate File Operations**: Offers functions for quick read and write operations (`readFileImmediately`, `writeFileImmediately`) without the need to manage file handles explicitly.
 *   **File Existence Check**: Allows you to verify if a file exists at a given path (`checkFileExists`).
+*   **Check if Path is File**: Allows you to verify if a path is a file (`checkIsFile`).
+*   **Check if Path is Directory**: Allows you to verify if a path is a directory (`checkIsDir`).
 *   **Close All Files**: Provides a function to close all files opened by the plugin (`closeFileAll`).
 *   **Get Files Directory**: Retrieves the absolute path to the application's files directory on Android (`getFilesDir`).
 
@@ -32,6 +34,8 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
     - Write file immediately (`writeFileImmediately`)
 - **Utilities:**
     - Check if file exists (`checkFileExists`)
+    - Check if path is file (`checkIsFile`)
+    - Check if path is directory (`checkIsDir`)
     - Close all files (`closeFileAll`)
     - Get Files Directory (`getFilesDir`)
 
@@ -47,6 +51,8 @@ This Tauri plugin implements internal storage functionality ( `/data/data/app.ta
 | `readFileImmediately()`                   | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `writeFileImmediately()`                  | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `checkFileExists()`                       | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `checkIsFile()`                           | ✅      | ❌   | ❌      | ❌     | ❌     |
+| `checkIsDir()`                            | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `closeFileAll()`                          | ✅      | ❌   | ❌      | ❌     | ❌     |
 | `getFilesDir()`                           | ✅      | ❌   | ❌      | ❌     | ❌     |
 
@@ -69,7 +75,7 @@ import { TFile } from 'plugin-tinys-internal-fs-api';
 async function writeFileExample() {
   try {
     const filePath = 'my_internal_file.txt';
-    const file = new TFile(filePath, 'write'); // Open file in 'write' mode
+    const file = new TFile(filePath, 'w'); // Open file in write mode
     await file.waitUntilInitialized(); // Ensure file is opened
 
     await file.write('First line of content.\n');
@@ -95,7 +101,7 @@ import { TFile } from 'plugin-tinys-internal-fs-api';
 async function readFileExample() {
   try {
     const filePath = 'my_internal_file.txt';
-    const file = new TFile(filePath, 'read'); // Open file in 'read' mode
+    const file = new TFile(filePath, 'r'); // Open file in read mode
     await file.waitUntilInitialized(); // Ensure file is opened
 
     const content = await file.readAll();
@@ -171,6 +177,50 @@ async function checkFileExistenceExample() {
 }
 
 checkFileExistenceExample();
+```
+
+### Checking if a Path is a File
+
+```typescript
+import { checkIsFile } from 'plugin-tinys-internal-fs-api';
+
+async function checkIsFileExample() {
+  try {
+    const filePath = 'my_internal_file.txt'; // Replace with an actual file path
+    const isFile = await checkIsFile(filePath);
+    if (isFile) {
+      console.log(`Path "${filePath}" is a file.`);
+    } else {
+      console.log(`Path "${filePath}" is not a file.`);
+    }
+  } catch (error) {
+    console.error('Failed to check if path is a file:', error);
+  }
+}
+
+checkIsFileExample();
+```
+
+### Checking if a Path is a Directory
+
+```typescript
+import { checkIsDir } from 'plugin-tinys-internal-fs-api';
+
+async function checkIsDirExample() {
+  try {
+    const dirPath = 'my_internal_directory'; // Replace with an actual directory path
+    const isDir = await checkIsDir(dirPath);
+    if (isDir) {
+      console.log(`Path "${dirPath}" is a directory.`);
+    } else {
+      console.log(`Path "${dirPath}" is not a directory.`);
+    }
+  } catch (error) {
+    console.error('Failed to check if path is a directory:', error);
+  }
+}
+
+checkIsDirExample();
 ```
 
 ### Getting the Files Directory

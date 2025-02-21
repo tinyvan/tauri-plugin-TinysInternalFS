@@ -11,4 +11,7 @@ permissions = [
     "allow-read-file-immediately",
     "allow-write-file-immediately",
     "allow-write-file",
+    "allow-get-files-dir",
+    "allow-check-is-file",
+    "allow-check-is-dir",
 ]

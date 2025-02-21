@@ -6,7 +6,7 @@ use crate::TinysInternalFsExt;
 #[command]
 pub(crate) async fn read_file_immediately<R: Runtime>(
     app: AppHandle<R>,
-    payload: ReadFilePayload,
+    payload: OnlyPathPayload,
 ) -> Result<String, String> {
     let ret = app
         .tinys_internal_fs()
@@ -79,7 +79,7 @@ pub(crate) async fn close_file<R: Runtime>(
 ) -> Result<(), String> {
     let ret = app
         .tinys_internal_fs()
-        .close_file(CloseFilePayload {
+        .close_file(OnlyPathPayload {
             path: file_handle.path,
         });
     match ret {
@@ -125,7 +125,7 @@ pub(crate) async fn read_file_all<R: Runtime>(
 ) -> Result<String, String> {
     let ret = app
         .tinys_internal_fs()
-        .read_file_all(ReadFilePayload {
+        .read_file_all(OnlyPathPayload {
             path: file_handle.path,
         });
     match ret {
@@ -153,7 +153,7 @@ pub(crate) async fn close_file_all<R: Runtime>(app: AppHandle<R>) -> Result<(), 
 pub(crate) async fn delete_file<R: Runtime>(app: AppHandle<R>, path: String) -> Result<(), String> {
     let ret = app
         .tinys_internal_fs()
-        .delete_file(DeleteFilePayload { path: path });
+        .delete_file(OnlyPathPayload { path: path });
     match ret {
         Ok(value) => {
             if value.success {
@@ -173,7 +173,7 @@ pub(crate) async fn check_file_exists<R: Runtime>(
 ) -> Result<bool, String> {
     let ret = app
         .tinys_internal_fs()
-        .check_file_exists(CheckFileExistsPayload { path: path });
+        .check_file_exists(OnlyPathPayload { path: path });
     match ret {
         Ok(value) => Ok(value.success),
         Err(e) => Err(e.into()),
@@ -186,5 +186,27 @@ pub(crate) async fn get_files_dir<R: Runtime>(app: AppHandle<R>) -> Result<Strin
     match ret {
         Ok(value) => Ok(value.path),
         Err(e) => Err(e.into()),
+    }
+}
+
+#[command]
+pub(crate) async fn check_is_file<R: Runtime>(app: AppHandle<R>, path: String) -> Result<bool, String> {
+    let ret = app
+       .tinys_internal_fs()
+       .check_is_file(OnlyPathPayload { path: path });
+    match ret {
+        Ok(value) => Ok(value.result),
+        Err(e) => Err(e.into()), 
+    }  
+}
+
+#[command]
+pub(crate) async fn check_is_dir<R: Runtime>(app: AppHandle<R>, path: String) -> Result<bool, String> {
+    let ret = app
+      .tinys_internal_fs()
+      .check_is_dir(OnlyPathPayload { path: path });  
+    match ret {
+        Ok(value) => Ok(value.result),
+        Err(e) => Err(e.into()), 
     }
 }

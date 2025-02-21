@@ -47,6 +47,8 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
       commands::delete_file,
       commands::check_file_exists,
       commands::get_files_dir,
+      commands::check_is_file,
+      commands::check_is_dir,
     ])
     .setup(|app, api| {
       #[cfg(mobile)]

@@ -119,4 +119,11 @@ class InternalStorageManager (private val context: Context){
     fun getFilesDir():String{
         return context.filesDir.absolutePath
     }
+
+    fun isFile(filePath: String):Boolean{
+        return File(context.filesDir, filePath).isFile
+    }
+    fun isDir(filePath: String):Boolean{
+        return File(context.filesDir, filePath).isDirectory
+    }
 }

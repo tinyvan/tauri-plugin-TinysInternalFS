@@ -1,16 +1,50 @@
 import { invoke } from '@tauri-apps/api/core'
 
+/**
+ * Represents a file handle with path and mode information.
+ */
 export type _FileHandle = {
+  /**
+   * The path to the file.
+   */
   path: string,
+  /**
+   * The mode in which the file was opened (e.g., "r", "w", "a").
+   */
   mode:string,
 }
 
+/**
+ * A class for interacting with files, providing methods for opening, writing, reading, and closing files.
+ * It utilizes the Tauri plugin `tinys-internal-fs` for file system operations.
+ */
 export class TFile {
+  /**
+   * The internal file handle, containing the path and mode.
+   * @private
+   */
   private _fileHandle:_FileHandle={path:"",mode:""};
+  /**
+   * A flag indicating whether the file has been successfully initialized.
+   * @private
+   */
   private _isInitialized:boolean = false;
+  /**
+   * A promise that resolves when the file is initialized.
+   * @private
+   */
   private _initializationPromise: Promise<void>;
+  /**
+   * A promise chain for sequential writes, ensuring that write operations are performed in order.
+   * @private
+   */
   private _writeQueue: Promise<null> = Promise.resolve(null); // Promise chain for sequential writes
 
+  /**
+   * Constructs a new `TFile` instance. It opens the file using the Tauri plugin.
+   * @param {string} path The path to the file.
+   * @param {string} mode The mode in which to open the file (e.g., "r", "w", "a").
+   */
   constructor(path: string, mode: string) {
     this._initializationPromise = new Promise<void>((resolve, reject) => {
       invoke<_FileHandle>("plugin:tinys-internal-fs|open_file", {
@@ -30,7 +64,7 @@ export class TFile {
 
   /**
    * Waits until the file is initialized.
-   * @returns {Promise<void>}
+   * @returns {Promise<void>} A promise that resolves when the file is initialized.
    */
   async waitUntilInitialized(): Promise<void> {
     return this._initializationPromise;
@@ -38,7 +72,7 @@ export class TFile {
 
   /**
    * Checks if the file is initialized.
-   * @returns {boolean}
+   * @returns {boolean} True if the file is initialized, false otherwise.
    */
   get isInitialized():boolean {
     return this._isInitialized;
@@ -46,7 +80,7 @@ export class TFile {
 
   /**
    * Gets the file path.
-   * @returns {string}
+   * @returns {string} The path to the file.
    */
   get path():string {
     return this._fileHandle.path;
@@ -54,7 +88,7 @@ export class TFile {
 
   /**
    * Gets the file mode.
-   * @returns {string}
+   * @returns {string} The mode in which the file was opened.
    */
   get mode():string {
     return this._fileHandle.mode;
@@ -65,7 +99,7 @@ export class TFile {
    * Writes content to the file sequentially. Each write operation will wait for the previous one to complete.
    * This provides a synchronous-like behavior for write operations from the user's perspective, ensuring order.
    * @param {string} content The content to write to the file.
-   * @returns {Promise<void>} A Promise that resolves when the write operation is completed.
+   * @returns {Promise<null>} A promise that resolves when the write operation is completed.
    */
   write(content:string): Promise<null> {
     // Queue the write operation
@@ -89,7 +123,7 @@ this._writeQueue = Promise.resolve(null);
 
   /**
    * Closes the file. It waits for all pending write operations to complete before closing.
-   * @returns {Promise<null>}
+   * @returns {Promise<null>} A promise that resolves when the file is closed.
    */
   async close():Promise<null> {
     await this._writeQueue; // Wait for all writes to finish
@@ -100,7 +134,7 @@ this._writeQueue = Promise.resolve(null);
 
   /**
    * Reads all content from the file.
-   * @returns {Promise<string>}
+   * @returns {Promise<string>} A promise that resolves with the file content.
    */
   async readAll():Promise<string> {
     await this.waitUntilInitialized(); // Ensure file is initialized before reading
@@ -116,7 +150,7 @@ this._writeQueue = Promise.resolve(null);
 /**
  * Reads a file immediately without needing to open a TFile instance.
  * @param {string} path The path to the file.
- * @returns {Promise<String>}
+ * @returns {Promise<String>} A promise that resolves with the file content.
  */
 export async function readFileImmediately(path: string): Promise<String> {
   return await invoke<String>("plugin:tinys-internal-fs|read_file_immediately",
@@ -131,7 +165,7 @@ export async function readFileImmediately(path: string): Promise<String> {
  * Writes content to a file immediately without needing to open a TFile instance.
  * @param {string} path The path to the file.
  * @param {string} content The content to write to the file.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} A promise that resolves when the write operation is completed.
  */
 export async function writeFileImmediately(path:string,content:string): Promise<null> {
   return await invoke<null>("plugin:tinys-internal-fs|write_file_immediately",{
@@ -145,7 +179,7 @@ export async function writeFileImmediately(path:string,content:string): Promise<
 
 /**
  * Closes all opened files by the plugin.
- * @returns {Promise<null>}
+ * @returns {Promise<null>} A promise that resolves when all files are closed.
  */
 export async function closeFileAll():Promise<null> {
   return await invoke<null>("plugin:tinys-internal-fs|close_file_all");
@@ -154,7 +188,7 @@ export async function closeFileAll():Promise<null> {
 /**
  * Checks if a file exists at the given path.
  * @param {string} path The path to the file.
- * @returns {Promise<boolean>}
+ * @returns {Promise<boolean>} A promise that resolves with a boolean indicating whether the file exists.
  */
 export async function checkFileExists(path:string):Promise<boolean> {
   return await invoke<boolean>("plugin:tinys-internal-fs|check_file_exists",{
@@ -162,8 +196,33 @@ export async function checkFileExists(path:string):Promise<boolean> {
   });
 }
 
+/**
+ * Gets the files directory.
+ * @returns {Promise<string>} A promise that resolves with the path to the files directory.
+ */
 export async function getFilesDir():Promise<string> {
   return await invoke<string>("plugin:tinys-internal-fs|get_files_dir");
+}
+
+/**
+ * Checks if the given path is a file.
+ * @param {string} path The path to check.
+ * @returns {Promise<boolean>} A promise that resolves with a boolean indicating whether the path is a file.
+ */
+export async function checkIsFile(path:string):Promise<boolean> {
+  return await invoke<boolean>("plugin:tinys-internal-fs|check_is_file",{
+    path:path
+  });
+}
+/**
+ * Checks if the given path is a directory.
+ * @param {string} path The path to check.
+ * @returns {Promise<boolean>} A promise that resolves with a boolean indicating whether the path is a directory.
+ */
+export async function checkIsDir(path:string):Promise<boolean> {
+  return await invoke<boolean>("plugin:tinys-internal-fs|check_is_dir",{
+    path:path
+  });
 }
 
 // export async function openFile(path:string,mode:string): Promise<_FileHandle> {
@@ -191,4 +250,3 @@ export async function getFilesDir():Promise<string> {
 //     fileHandle:file
 //   })
 // }
-
